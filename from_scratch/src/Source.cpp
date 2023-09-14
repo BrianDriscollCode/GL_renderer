@@ -67,7 +67,7 @@ int main()
         1, 2, 3    // second triangle
     };
 
-    Drawer draw(vertices, sizeof(vertices), indices, sizeof(indices), true);    
+    Drawer draw(vertices, sizeof(vertices), indices, sizeof(indices), true, 3);    
     
     // render
 

@@ -1,3 +1,4 @@
 ﻿  Source.cpp
+F:\game_engine\learn_opengl\from_scratch\from_scratch\src\tools\drawer.h(107,57): warning C4244: 'argument': conversion from 'GLfloat' to 'GLenum', possible loss of data
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   from_scratch.vcxproj -> F:\game_engine\learn_opengl\from_scratch\x64\Debug\from_scratch.exe
