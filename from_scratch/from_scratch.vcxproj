@@ -91,11 +91,13 @@
     <ClInclude Include="src\libraries\glm\ext.hpp" />
     <ClInclude Include="src\libraries\glm\glm.hpp" />
     <ClInclude Include="src\libraries\glm\gtc\type_ptr.hpp" />
+    <ClInclude Include="src\tools\camera.h" />
     <ClInclude Include="src\tools\shader.h" />
     <ClInclude Include="src\tools\drawer.h" />
     <ClInclude Include="src\tools\stb_image.h" />
     <ClInclude Include="src\tools\texture.h" />
     <ClInclude Include="src\tools\debugOutput.h" />
+    <ClInclude Include="src\tools\transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\libraries\glm\gtc\matrix_transform.inl" />
@@ -106,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\resources\textures\brick_wall.jpg" />
+    <Image Include="src\resources\textures\water_glass.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

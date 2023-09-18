@@ -45,8 +45,6 @@ public:
 
         glBufferData(GL_ARRAY_BUFFER, verticesSize, vertices, GL_STATIC_DRAW);
 
-        std::cout << sizeof(float) << " -test float" << std::endl;
-
         // glVertexAttribPointer
         // (1) Shader variable position
         // (2) Amount of variables (ex: 3 floats)
@@ -94,13 +92,11 @@ public:
 
         if (variableType == "float")
         {
-            std::cout << "TESTFLOAT" << std::endl;
             typeSetter = GL_FLOAT;
         }
 
         if (!isNormalized)
         {
-            std::cout << "TESTFLOAT" << std::endl;
             normalizeSetter = GL_FALSE;
         }
 

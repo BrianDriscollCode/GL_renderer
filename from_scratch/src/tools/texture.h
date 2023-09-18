@@ -17,6 +17,7 @@
 class Texture {
 
 public:
+public:
 	unsigned int texture;
 
 	Texture(const char* texturePath)
@@ -28,7 +29,7 @@ public:
 		glBindTexture(GL_TEXTURE_2D, texture);
 
 		// set filtering options
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 		int width, height, nrChannels;

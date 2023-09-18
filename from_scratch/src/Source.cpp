@@ -1,10 +1,12 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "windows.h";
 
 #include "./tools/shader.h"
 #include "./tools/drawer.h"
 #include "./tools/texture.h"
+#include "./tools/transform.h"
 
 #include "./libraries/glm/glm.hpp"
 #include "./libraries/glm/gtc/matrix_transform.hpp"
@@ -49,14 +51,14 @@ int main()
 
     // Init Shader
     Shader ourShader("src/resources/shaders/shaderTexture.vert", "src/resources/shaders/shaderTexture.frag");
-    
+
     // Init Texture
     Texture ourTexture("src/resources/textures/brick_wall.jpg");
 
     // Init vertex data
 
     float vertices[] = {
-        // positions          // colors           // texture coords
+        // positions               // texture coords
          0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
          0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
         -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
@@ -67,8 +69,10 @@ int main()
         1, 2, 3    // second triangle
     };
 
-    Drawer draw(vertices, sizeof(vertices), indices, sizeof(indices), true, 3);    
-    
+    Drawer draw(vertices, sizeof(vertices), indices, sizeof(indices), true, 3);   
+
+    Transform transform(true);
+
     // render
 
     while (!glfwWindowShouldClose(window))
@@ -85,6 +89,13 @@ int main()
         ourTexture.use();
         ourShader.use();
         draw.use();
+
+        // translate
+        transform.setTranslate(0.0f, 0.5f, 0.0f);
+        transform.setRotate(0.0f, 0.0f, 1.0f, 90.0f);
+        transform.setScale(0.5f, 0.5f, 0.5f);
+        transform.startTransform(ourShader, false, true, true);
+        transform.resetTransform();
 
         // check and call events & swap buffers
         glfwSwapBuffers(window);
