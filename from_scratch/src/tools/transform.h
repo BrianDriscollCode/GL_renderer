@@ -30,6 +30,8 @@ public:
 
 	Transform(bool set)
 	{
+		DebugOutput debugOutput(true);
+		debugOutput.outputGreenText("**SUCCESS**::TRANSFORM::INITIALIZED::[tools/transform.h]");
 		return;
 	}
 
@@ -38,7 +40,7 @@ public:
 		translateX = x;
 		translateY = y;
 		translateZ = z;
-		std::cout << translateX << translateY << translateZ << std::endl;
+		
 	}
 
 	void setRotate(float x, float y, float z, float radians)

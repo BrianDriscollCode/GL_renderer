@@ -56,18 +56,18 @@ public:
         //position attribute
         /*glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);*/
-        setAttribPointer(0, 3, "float", false, 8, 0);
+        setAttribPointer(0, 3, "float", false, 5, 0);
 
         //// color attribute
         /*glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);*/
-        setAttribPointer(1, 3, "float", false, 8, 3);
+        //setAttribPointer(1, 3, "float", false, 8, 3);
 
         //// texture attribute
         //// texture coord attribute
         //glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
         //glEnableVertexAttribArray(2);
-        setAttribPointer(2, 2, "float", false, 8, 6);
+        setAttribPointer(1, 2, "float", false, 5, 3);
 
         // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -110,7 +110,7 @@ public:
 
         if (!withEBO)
         {
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
         }
         else if (withEBO)
         {
