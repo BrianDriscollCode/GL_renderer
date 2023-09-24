@@ -78,63 +78,63 @@ int main()
 
     // Before Render Set up
 
-    // Init Shader
-    Shader ourShader("src/resources/shaders/shaderTexture.vert", "src/resources/shaders/shaderTexture.frag");
+    // Init Shaders
+    Shader boxColorShader("src/resources/shaders/boxColorTexture.vert", "src/resources/shaders/boxColorTexture.frag");
+    Shader lightCubeShader("src/resources/shaders/lightBoxShader.vert", "src/resources/shaders/lightBoxShader.frag");
+
 
     // Init Texture
     Texture ourTexture("src/resources/textures/brick_wall.jpg");
 
     // Init vertex data
     float vertices[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f, 
+         0.5f, -0.5f, -0.5f,  
+         0.5f,  0.5f, -0.5f,  
+         0.5f,  0.5f, -0.5f,  
+        -0.5f,  0.5f, -0.5f, 
+        -0.5f, -0.5f, -0.5f, 
 
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f, 
+         0.5f, -0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f, 
+        -0.5f, -0.5f,  0.5f, 
 
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f, 
+        -0.5f,  0.5f, -0.5f, 
+        -0.5f, -0.5f, -0.5f, 
+        -0.5f, -0.5f, -0.5f, 
+        -0.5f, -0.5f,  0.5f, 
+        -0.5f,  0.5f,  0.5f, 
 
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  
+         0.5f,  0.5f, -0.5f,  
+         0.5f, -0.5f, -0.5f,  
+         0.5f, -0.5f, -0.5f,  
+         0.5f, -0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
 
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 
+         0.5f, -0.5f, -0.5f,  
+         0.5f, -0.5f,  0.5f,  
+         0.5f, -0.5f,  0.5f,  
+        -0.5f, -0.5f,  0.5f, 
+        -0.5f, -0.5f, -0.5f, 
 
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+        -0.5f,  0.5f, -0.5f, 
+         0.5f,  0.5f, -0.5f,  
+         0.5f,  0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f, 
+        -0.5f,  0.5f, -0.5f, 
     };
 
-    unsigned int indices[] = {  // note that we start from 0!
-        0, 1, 3,   // first triangle
-        1, 2, 3    // second triangle
-    };
 
-    Drawer draw(vertices, sizeof(vertices), indices, sizeof(indices), false, 3);   
+    //Drawer draw(vertices, sizeof(vertices), indices, sizeof(indices), false, 3);   
+
+    Drawer draw(vertices, sizeof(vertices));
     Transform transform(true);
     glm::mat4 initCamera = glm::mat4(1.0f);
     Camera camera(initCamera, initCamera, initCamera);
@@ -153,8 +153,6 @@ int main()
     };
 
 
-    ourShader.use();
-    camera.setProjection(ourShader, cameraWidth, cameraHeight);
 
     // render
 
@@ -170,20 +168,31 @@ int main()
 
         // init textures and shaders
         ourTexture.use();
-        ourShader.use();
+        boxColorShader.use();
+        boxColorShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        boxColorShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
-        // init Camera (view and projection)
-        //camera.setRotationView(ourShader);
-        camera.setViewLookAt(ourShader, cameraPos, cameraFront, cameraUp);
+        // init Camera values for 1st shader
+        camera.setProjection(boxColorShader, cameraWidth, cameraHeight);
+        camera.setViewLookAt(boxColorShader, cameraPos, cameraFront, cameraUp);
 
         for (int i = 0; i < 10; i++)
         {
             // init model
-            camera.use(ourShader, cubePositions[i], i);
+            camera.use(boxColorShader, cubePositions[i], i);
 
             // draw shapes
-            draw.use();
+            draw.useDrawArrays(1);
         }
+
+        lightCubeShader.use();
+        //init camera values for 2nd shader
+        camera.setProjection(lightCubeShader, cameraWidth, cameraHeight);
+        camera.setViewLookAt(lightCubeShader, cameraPos, cameraFront, cameraUp);
+        camera.use(lightCubeShader, glm::vec3(0.0f, 3.0f, 5.0f), 1);
+
+        // draw light object
+        draw.useDrawArrays(2);
        
         // check and call events & swap buffers
         glfwSwapBuffers(window);

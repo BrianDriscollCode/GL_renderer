@@ -101,10 +101,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\libraries\glm\gtc\matrix_transform.inl" />
-    <None Include="src\resources\shaders\shader.frag" />
-    <None Include="src\resources\shaders\shader.vert" />
-    <None Include="src\resources\shaders\shaderTexture.frag" />
-    <None Include="src\resources\shaders\shaderTexture.vert" />
+    <None Include="src\resources\shaders\lightBoxShader.frag" />
+    <None Include="src\resources\shaders\lightBoxShader.vert" />
+    <None Include="src\resources\shaders\boxColorTexture.frag" />
+    <None Include="src\resources\shaders\boxColorTexture.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\resources\textures\brick_wall.jpg" />

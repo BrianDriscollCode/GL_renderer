@@ -9,31 +9,55 @@
 
 #include "debugOutput.h"
 
+
+// glVertexAttribPointer - FUNCTION
+        // (1) Shader variable position
+        // (2) Amount of variables (ex: 3 floats)
+        // (3) Specify data type
+        // (4) Normalize (true) or do not normalize (false)
+        // (5) stride - amount of bytes until next position, next color, or next texture. (ex: position -> 32 bytes -> position) 
+        // (6) offset - amount of bytes from 1 type to the next (ex: position -> 12 bytes -> color)
+
 class Drawer
 {
 public:
-    unsigned int VBO, VAO, EBO;
+    unsigned int VBO, shapeVAO, lightSourceVAO, EBO;
+    int bugPrinted = false;
     bool withEBO;
 
     Drawer
     (
         float vertices[],
         int verticesSize,
-        unsigned int indices[] = { 0 },
-        int indicesSize = 0,
         bool passedEBO = false,
-        int numberOfAttributes = 1
+        unsigned int indices[] = { 0 },
+        int indicesSize = 0
     ) 
     {
         withEBO = passedEBO;
 
         // bind the Vertex Array Object first
-        glGenVertexArrays(1, &VAO);
-        glBindVertexArray(VAO);
+
+        //Shape VAO
+        glGenVertexArrays(1, &shapeVAO);
+        glBindVertexArray(shapeVAO);
 
         // bind vertex buffer object
         glGenBuffers(1, &VBO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, verticesSize, vertices, GL_STATIC_DRAW);
+        
+        //Box Color
+        setAttribPointer(0, 3, "float", false, 3, 0);
+
+        //lightSource VAO
+        glGenVertexArrays(1, &lightSourceVAO);
+        glBindVertexArray(lightSourceVAO);
+
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+        //lightbox
+        setAttribPointer(0, 3, "float", false, 3, 0);
 
         // bind element buffer object if it exists
         if (withEBO)
@@ -42,32 +66,6 @@ public:
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices, GL_STATIC_DRAW);
         }
-
-        glBufferData(GL_ARRAY_BUFFER, verticesSize, vertices, GL_STATIC_DRAW);
-
-        // glVertexAttribPointer
-        // (1) Shader variable position
-        // (2) Amount of variables (ex: 3 floats)
-        // (3) Specify data type
-        // (4) Normalize (true) or do not normalize (false)
-        // (5) stride - amount of bytes until next position, next color, or next texture. (ex: position -> 32 bytes -> position) 
-        // (6) offset - amount of bytes from 1 type to the next (ex: position -> 12 bytes -> color)
-        
-        //position attribute
-        /*glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-        glEnableVertexAttribArray(0);*/
-        setAttribPointer(0, 3, "float", false, 5, 0);
-
-        //// color attribute
-        /*glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-        glEnableVertexAttribArray(1);*/
-        //setAttribPointer(1, 3, "float", false, 8, 3);
-
-        //// texture attribute
-        //// texture coord attribute
-        //glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-        //glEnableVertexAttribArray(2);
-        setAttribPointer(1, 2, "float", false, 5, 3);
 
         // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -104,24 +102,55 @@ public:
         glEnableVertexAttribArray(position);
     }
 
-    void use() 
+    void useDrawArrays(int pickVAO = 0)
     {
-        glBindVertexArray(VAO);
+        DebugOutput debugOutput(true);
 
-        if (!withEBO)
+        if (pickVAO == 1)
         {
-            glDrawArrays(GL_TRIANGLES, 0, 36);
+            glBindVertexArray(shapeVAO);
         }
-        else if (withEBO)
+        else if (pickVAO == 2)
         {
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(lightSourceVAO);
+        }
+        else 
+        {
+            if (!bugPrinted) 
+            {
+                debugOutput.outputRedText("ERROR::NO_VAO_PICKED::[drawer.h]*FUNC:useDrawArray");
+                bugPrinted = true;
+            }
             
+        }
+
+        glBindVertexArray(shapeVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+    }
+
+    void useDrawElements(int pickVAO = 0)
+    {
+        DebugOutput debugOutput(true);
+
+        if (pickVAO == 1)
+        {
+            glBindVertexArray(shapeVAO);
+        }
+        else if (pickVAO == 2)
+        {
+            glBindVertexArray(lightSourceVAO);
         }
         else
         {
-            std::cout << "ERROR::DRAWER::DRAWING_SKIPPED::[tools/drawer.h]" << std::endl;
+            if (!bugPrinted)
+            {
+                debugOutput.outputRedText("ERROR::NO_VAO_PICKED::[drawer.h]*FUNC:useDrawElements");
+                bugPrinted = true;
+            }
         }
 
+        glBindVertexArray(shapeVAO);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
 };
 
