@@ -11,6 +11,7 @@
 class Camera {
 
 public:
+	glm::vec3 position;
 	glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 projection;
@@ -18,10 +19,11 @@ public:
 	float yPos = 0.0f;
 	float zPos = -3.0f;
 
-	Camera(glm::mat4 modelValue, glm::mat4 viewValue, glm::mat4 projectValue)
+	Camera(glm::mat4 modelValue, glm::mat4 viewValue, glm::mat4 projectValue, glm::vec3 positionValue)
 	{
 		DebugOutput debugOutput(true);
 
+		position = position;
 		model = modelValue;
 		view = viewValue;
 		projection = projectValue;
@@ -57,6 +59,7 @@ public:
 	{
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		shader.setMat4("view", view);
+		position = cameraPos;
 	}
 
 	void setRotationView(Shader shader)
@@ -71,16 +74,21 @@ public:
 		shader.setMat4("view", view);
 	}
 	
-	void use(Shader shader, glm::vec3 objectPosition, int position)
+	void use(Shader shader, glm::vec3 objectPosition, int arrayPosition = 0, bool scale = false)
 	{
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, objectPosition);
 		// Model matrix - transforms objects from local space into world space
 		// Performs translations, scaling, and rotation to place objects in the world
-		model = glm::rotate(model, glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+		//model = glm::rotate(model, glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+
+		if (scale)
+		{
+			model = glm::scale(model, glm::vec3(0.2f));
+		}
 		
-		float angle = 20.0f * position;
-		model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+		//float angle = 20.0f * position;
+		//model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 		shader.setMat4("model", model);
 	}
 	

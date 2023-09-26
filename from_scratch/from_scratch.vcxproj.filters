@@ -53,15 +53,18 @@
     <ClInclude Include="src\tools\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\tools\materialType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\resources\shaders\shader.frag" />
-    <None Include="src\resources\shaders\shader.vert" />
     <None Include="src\libraries\glm\gtc\matrix_transform.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="src\resources\shaders\shaderTexture.vert" />
-    <None Include="src\resources\shaders\shaderTexture.frag" />
+    <None Include="src\resources\shaders\lightBoxShader.frag" />
+    <None Include="src\resources\shaders\lightBoxShader.vert" />
+    <None Include="src\resources\shaders\lightingShader.frag" />
+    <None Include="src\resources\shaders\lightingShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\resources\textures\brick_wall.jpg">

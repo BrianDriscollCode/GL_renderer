@@ -48,7 +48,10 @@ public:
         glBufferData(GL_ARRAY_BUFFER, verticesSize, vertices, GL_STATIC_DRAW);
         
         //Box Color
-        setAttribPointer(0, 3, "float", false, 3, 0);
+        setAttribPointer(0, 3, "float", false, 6, 0);
+
+        // normal attribture
+        setAttribPointer(1, 3, "float", false, 6, 3);
 
         //lightSource VAO
         glGenVertexArrays(1, &lightSourceVAO);
@@ -57,7 +60,7 @@ public:
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
         //lightbox
-        setAttribPointer(0, 3, "float", false, 3, 0);
+        setAttribPointer(0, 3, "float", false, 6, 0);
 
         // bind element buffer object if it exists
         if (withEBO)

@@ -8,6 +8,7 @@
 #include "./tools/texture.h"
 #include "./tools/transform.h"
 #include "./tools/camera.h"
+#include "./tools/materialType.h"
 
 #include "./libraries/glm/glm.hpp"
 #include "./libraries/glm/gtc/matrix_transform.hpp"
@@ -17,8 +18,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void mouseCallback(GLFWwindow* window, double xpos, double ypos);
 
-int cameraWidth = 800;
-int cameraHeight = 600;
+int cameraWidth = 1280;
+int cameraHeight = 720;
 
 float SPEED = 0.1f;
 
@@ -79,8 +80,9 @@ int main()
     // Before Render Set up
 
     // Init Shaders
-    Shader boxColorShader("src/resources/shaders/boxColorTexture.vert", "src/resources/shaders/boxColorTexture.frag");
+    Shader lightingShader("src/resources/shaders/lightingShader.vert", "src/resources/shaders/lightingShader.frag");
     Shader lightCubeShader("src/resources/shaders/lightBoxShader.vert", "src/resources/shaders/lightBoxShader.frag");
+    MaterialType material(true);
 
 
     // Init Texture
@@ -88,47 +90,47 @@ int main()
 
     // Init vertex data
     float vertices[] = {
-        -0.5f, -0.5f, -0.5f, 
-         0.5f, -0.5f, -0.5f,  
-         0.5f,  0.5f, -0.5f,  
-         0.5f,  0.5f, -0.5f,  
-        -0.5f,  0.5f, -0.5f, 
-        -0.5f, -0.5f, -0.5f, 
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-        -0.5f, -0.5f,  0.5f, 
-         0.5f, -0.5f,  0.5f,  
-         0.5f,  0.5f,  0.5f,  
-         0.5f,  0.5f,  0.5f,  
-        -0.5f,  0.5f,  0.5f, 
-        -0.5f, -0.5f,  0.5f, 
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
 
-        -0.5f,  0.5f,  0.5f, 
-        -0.5f,  0.5f, -0.5f, 
-        -0.5f, -0.5f, -0.5f, 
-        -0.5f, -0.5f, -0.5f, 
-        -0.5f, -0.5f,  0.5f, 
-        -0.5f,  0.5f,  0.5f, 
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-         0.5f,  0.5f,  0.5f,  
-         0.5f,  0.5f, -0.5f,  
-         0.5f, -0.5f, -0.5f,  
-         0.5f, -0.5f, -0.5f,  
-         0.5f, -0.5f,  0.5f,  
-         0.5f,  0.5f,  0.5f,  
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-        -0.5f, -0.5f, -0.5f, 
-         0.5f, -0.5f, -0.5f,  
-         0.5f, -0.5f,  0.5f,  
-         0.5f, -0.5f,  0.5f,  
-        -0.5f, -0.5f,  0.5f, 
-        -0.5f, -0.5f, -0.5f, 
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-        -0.5f,  0.5f, -0.5f, 
-         0.5f,  0.5f, -0.5f,  
-         0.5f,  0.5f,  0.5f,  
-         0.5f,  0.5f,  0.5f,  
-        -0.5f,  0.5f,  0.5f, 
-        -0.5f,  0.5f, -0.5f, 
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
     };
 
 
@@ -137,7 +139,7 @@ int main()
     Drawer draw(vertices, sizeof(vertices));
     Transform transform(true);
     glm::mat4 initCamera = glm::mat4(1.0f);
-    Camera camera(initCamera, initCamera, initCamera);
+    Camera camera(initCamera, initCamera, initCamera, cameraPos);
     
     glm::vec3 cubePositions[] = {
     glm::vec3(0.0f,  0.0f,  0.0f),
@@ -156,6 +158,8 @@ int main()
 
     // render
 
+   glm::vec3 lightPos(-1.0f, 0.0f, -5.0f);
+
     while (!glfwWindowShouldClose(window))
     {
         // input
@@ -168,18 +172,30 @@ int main()
 
         // init textures and shaders
         ourTexture.use();
-        boxColorShader.use();
-        boxColorShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-        boxColorShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        lightingShader.use();
+        lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        lightingShader.setVec3("lightPos", lightPos);
+        lightingShader.setVec3("viewPos", camera.position);
+        lightingShader.setVec3("material.ambient", material.gold.ambient);
+        lightingShader.setVec3("material.diffuse", material.gold.diffuse);
+        lightingShader.setVec3("material.specular", material.gold.specular);
+        lightingShader.setFloat("material.shininess", material.gold.shininess);
+        glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+        glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
+        glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+        lightingShader.setVec3("light.ambient", material.minimal.ambient);
+        lightingShader.setVec3("light.diffuse", material.minimal.diffuse);
+        lightingShader.setVec3("light.specular", material.minimal.specular);
 
         // init Camera values for 1st shader
-        camera.setProjection(boxColorShader, cameraWidth, cameraHeight);
-        camera.setViewLookAt(boxColorShader, cameraPos, cameraFront, cameraUp);
+        camera.setProjection(lightingShader, cameraWidth, cameraHeight);
+        camera.setViewLookAt(lightingShader, cameraPos, cameraFront, cameraUp);
 
         for (int i = 0; i < 10; i++)
         {
             // init model
-            camera.use(boxColorShader, cubePositions[i], i);
+            camera.use(lightingShader, cubePositions[i], i);
 
             // draw shapes
             draw.useDrawArrays(1);
@@ -189,7 +205,10 @@ int main()
         //init camera values for 2nd shader
         camera.setProjection(lightCubeShader, cameraWidth, cameraHeight);
         camera.setViewLookAt(lightCubeShader, cameraPos, cameraFront, cameraUp);
-        camera.use(lightCubeShader, glm::vec3(0.0f, 3.0f, 5.0f), 1);
+        camera.use(lightCubeShader, lightPos, 1, true);
+
+        lightPos.x -= sin(glfwGetTime() * 2.25f) * 0.25f;
+        //lightPos.y -= sin(glfwGetTime()) * 0.25f;
 
         // draw light object
         draw.useDrawArrays(2);
